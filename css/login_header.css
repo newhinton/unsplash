@@ -1,13 +1,28 @@
 #body-login,
 #body-user #header,
 #body-settings #header,
+
+
 #body-public #header {
-    background-color: #777 !important;
-    background-image: url('<?php echo $unsplashImagePath; ?>') !important;
+    //background-color: #777 !important;
+
+    /*https://css-tricks.com/tinted-images-multiple-backgrounds/*/
+    background-image: url('<?php echo $unsplashImagePath; ?>'),linear-gradient(
+            rgba(255, 0, 0, 0.45),
+            rgba(255, 0, 0, 0.45)
+    )!important;
+    background-color: #FFF;
+    /*https://stackoverflow.com/questions/609273/convert-an-image-to-grayscale-in-html-css*/
+    background-blend-mode: luminosity, normal;
+
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+
+
 }
+
+
 
 #body-login input.primary,
 #body-login button.primary,

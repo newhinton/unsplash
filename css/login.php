@@ -19,43 +19,41 @@
      *
      */
 
-namespace OCA\Unsplash;
 
-use OC;
-use OCP\IConfig;
-use OCA\Unsplash\Settings\SettingsManager;
+
+namespace OCA\Unsplash\CSS;
+
+use OCA\Unsplash\Services\SettingsService;
+
 
 $unsplashScript = get_included_files();
 $unsplashScript = $unsplashScript[0]; //gets the current filepath
 $unsplashScript=substr($unsplashScript, 0, -27);
-$unsplashScript=\OC::$SERVERROOT;
 
 require_once $unsplashScript . 'lib/base.php';
 require $unsplashScript.'apps/unsplash/lib/Settings/SettingsManager.php';
 
-
-$server = \OC::$server;
-$config = OC::$server->getConfig();
-
-$Settingsmanager=new SettingsManager($config);
-$showHeader = $Settingsmanager->headerbackground();
-$unsplashImagePath=$Settingsmanager->headerbackgroundLink();
+$app = new \OCA\Unsplash\AppInfo\Application();
+$settings = $app->getContainer()->query(SettingsService::class);
 
 
+$showHeader=$settings->getServerStyleLoginEnabled();
+$unsplashImagePath = $settings->getServerStyleUrl();
 
-
+/*
+if($showHeader) {
+    echo "ShowHeader:true<br>";
+}else {
+    echo "ShowHeader:false<br>";
+}
+echo $unsplashImagePath."<br>";
+*/
 header("Content-type: text/css; charset: UTF-8");
-include $unsplashScript."config/config.php";
-
-
 if($showHeader){
     include 'login_header.css';
 }else{
-     include 'login_background.css';
+    include 'login_background.css';
 }
 
 
-
-
-
-?>*/
+?>

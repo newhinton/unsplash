@@ -1,7 +1,9 @@
-# 📸🔀☁️ Random [Nextcloud](https://nextcloud.com) log in background from [Unsplash](https://unsplash.com/)
+# 📸🔀☁️ Random [Nextcloud](https://nextcloud.com) background from [Unsplash](https://unsplash.com/)
+
+Show a new random featured nature photo from [Unsplash Source](https://source.unsplash.com/) on the log in screen and in the header.
 
 ![](unsplash.jpg)
 
-Show a new random featured photo from [Unsplash Source](https://source.unsplash.com/) on the log in screen.
+![](unsplash-header.jpg)
 
 With ♥️ by [@jancborchardt](https://github.com/jancborchardt/) & [@LukasReschke](https://github.com/LukasReschke)

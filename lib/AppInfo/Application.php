@@ -1,47 +1,97 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Bjoern Schiessle <bjoern@schiessle.org>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * This file is part of the Unsplash App
+ * and licensed under the AGPL.
  */
-
 
 namespace OCA\Unsplash\AppInfo;
 
-
-use OCA\Unsplash\Settings;
+use OC\Security\CSP\ContentSecurityPolicy;
+use OCA\Unsplash\Services\SettingsService;
 use OCP\AppFramework\App;
 use OCP\Util;
-use OCA\Unsplash\Capabilities;
 
+/**
+ * Class Application
+ *
+ * @package OCA\Unsplash\AppInfo
+ */
 class Application extends App {
 
-	public function __construct(array $urlParams = array()) {
-		parent::__construct('unsplash', $urlParams);
+    /**
+     * Application constructor.
+     *
+     * @param array $urlParams
+     */
+    public function __construct(array $urlParams = []) {
+        parent::__construct('unsplash', $urlParams);
+    }
 
-		$settingsManager = \OC::$server->query(Settings\SettingsManager::class);
-		$settings = new Settings($settingsManager);
+    /**
+     * Register all app functionality
+     *
+     * @throws \OCP\AppFramework\QueryException
+     */
+    public function register() {
+        $this->registerPersonalSettings();
+        $this->registerStyleSheets();
+        $this->registerCsp();
+    }
 
-		/** register capabilities */
-		$container = $this->getContainer();
-		$container->registerCapability(Capabilities::class);
+    /**
+     * Add the personal settings page
+     */
+    public function registerPersonalSettings() {
+        \OCP\App::registerPersonal('unsplash', 'templates/personal');
+    }
 
-		/** register hooks */
-		Util::connectHook('\OCP\Config', 'js', $settings, 'announceUnsplashSettings');
-	}
+    /**
+     * Add the stylesheets
+     *
+     * @throws \OCP\AppFramework\QueryException
+     */
+    public function registerStyleSheets() {
+        /** @var SettingsService $settings */
+        $settings = $this->getContainer()->query(SettingsService::class);
+
+        if($settings->getUserStyleHeaderEnabled()) {
+          #  Util::addStyle('unsplash', 'header');
+        }
+        if($settings->getServerStyleLoginEnabled()) {
+           # Util::addStyle('unsplash', 'login');
+        }
+
+        $unsplashScript = \OC::$WEBROOT;
+
+        \OCP\Util::addHeader(
+            'link',
+            [
+                'rel'  => "stylesheet",
+                'type' =>"text/css",
+                'href' => $unsplashScript."/apps/unsplash/css/login.php",
+            ]
+        );
+
+
+
+    }
+
+    /**
+     * Allow Unsplash hosts in the csp
+     *
+     * @throws \OCP\AppFramework\QueryException
+     */
+    public function registerCsp() {
+        /** @var SettingsService $settings */
+        $settings = $this->getContainer()->query(SettingsService::class);
+
+        if($settings->getUserStyleHeaderEnabled() || $settings->getServerStyleLoginEnabled()) {
+            $manager = $this->getContainer()->getServer()->getContentSecurityPolicyManager();
+            $policy  = new ContentSecurityPolicy();
+            $policy->addAllowedImageDomain('https://source.unsplash.com');
+            $policy->addAllowedImageDomain('https://images.unsplash.com');
+            $manager->addDefaultPolicy($policy);
+        }
+    }
 
 }

@@ -1,11 +1,20 @@
-
 #body-login {
-    background-color: #777 !important;
-    background-image: url('<?php echo $unsplashImagePath; ?>') !important;
+    background-color    : #777 !important;
+    background-image    : url('https://cdn.vox-cdn.com/thumbor/ya9TUZjBXK3CnAT3dP6vL157XFA=/0x0:2040x1360/920x613/filters:focal(857x517:1183x843)/cdn.vox-cdn.com/uploads/chorus_image/image/57358643/jbareham_170504_1691_0020.0.0.jpg') !important;
+   /* background-image    : url('<?php echo $unsplashImagePath; ?>') !important;
+   */ background-position : center;
+    background-repeat   : no-repeat;
+    background-size     : cover;
+    background-color    :red;
+
+
+    opacity: 0.3;
+
+
 }
 
 #body-login input.primary,
 #body-login button.primary,
 #body-login #alternative-logins li a {
-    background-color: rgba(0, 0, 0, .5) !important;
+    background-color : rgba(0, 0, 0, .5) !important;
 }
