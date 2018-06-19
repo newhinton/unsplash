@@ -8,10 +8,10 @@
 
     /*https://css-tricks.com/tinted-images-multiple-backgrounds/*/
     background-image: url('<?php echo $unsplashImagePath; ?>'),linear-gradient(
-            rgba(255, 0, 0, 0.45),
-            rgba(255, 0, 0, 0.45)
+            rgba(<?php echo $mainColorR; ?>, <?php echo $mainColorG; ?>, <?php echo $mainColorB; ?>, 0.3),
+            rgba(<?php echo $mainColorR; ?>, <?php echo $mainColorG; ?>, <?php echo $mainColorB; ?>, 0.3)
     )!important;
-    background-color: #FFF;
+    background-color: #000;
     /*https://stackoverflow.com/questions/609273/convert-an-image-to-grayscale-in-html-css*/
     background-blend-mode: luminosity, normal;
 

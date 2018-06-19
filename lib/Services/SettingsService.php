@@ -37,19 +37,25 @@ class SettingsService {
     protected $appName;
 
     /**
+     * @var \OC_Defaults
+     */
+    private $defaults;
+
+    /**
      * FaviconService constructor.
      *
      * @param string|null $userId
      * @param             $appName
      * @param IConfig     $config
      */
-    public function __construct($userId, $appName, IConfig $config) {
+    public function __construct($userId, $appName, IConfig $config, \OC_Defaults $defaults) {
         $this->config = $config;
         $this->userId = $userId;
         if($this->config->getSystemValue('maintenance', false)) {
             $this->userId = null;
         }
         $this->appName = $appName;
+        $this->defaults = $defaults;
     }
 
     /**
@@ -136,5 +142,17 @@ class SettingsService {
     public function setServerStyleUrl($styleUrl =  self::DEFAULT_UNSPLASH_URL) {
         $this->config->setAppValue($this->appName, self::STYLE_URL, $styleUrl);
     }
+
+    /**
+     * nextcloud theming main color
+     *
+     * @param String $styleUrl
+     */
+    public function getColor() {
+        return $this->config->getAppValue('theming', 'color', $this->defaults->getColorPrimary());
+    }
+
+
+
 
 }

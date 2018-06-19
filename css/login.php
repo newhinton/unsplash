@@ -24,7 +24,7 @@
 namespace OCA\Unsplash\CSS;
 
 use OCA\Unsplash\Services\SettingsService;
-
+//use OCA\Theming;
 
 $unsplashScript = get_included_files();
 $unsplashScript = $unsplashScript[0]; //gets the current filepath
@@ -35,7 +35,15 @@ require $unsplashScript.'apps/unsplash/lib/Settings/SettingsManager.php';
 
 $app = new \OCA\Unsplash\AppInfo\Application();
 $settings = $app->getContainer()->query(SettingsService::class);
+//$theme = $app->getContainer()->query(Theming::class);
+//$mainColorR=$theme->getColorPrimary();
+$color =$settings->getColor();
 
+
+$maincolor=str_split(str_replace("#","",$color), 2);
+$mainColorR=hexdec($maincolor[0]);
+$mainColorG=hexdec($maincolor[1]);
+$mainColorB=hexdec($maincolor[2]);
 
 $showHeader=$settings->getServerStyleLoginEnabled();
 $unsplashImagePath = $settings->getServerStyleUrl();
